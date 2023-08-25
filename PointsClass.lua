@@ -1,3 +1,40 @@
+--[[
+
+	name:  PointsClass
+	description:  add and manage any type of points
+	
+	// server
+	
+	-- require PointsClass
+	
+	local pointsPerPlayer = {}
+	
+	function playerAdded(player)
+		pointsPerPlayer[player] = PointsClass.new(player, "cash")
+		
+		local playerPoints = pointsPerPlayer[player]
+		playerPoints.pointsChanged:Connect(function()
+			-- do whatever
+		end)
+		
+		playerPoints:addPoints(50)
+		
+	end
+	
+	// client
+	
+	-- the name of your client comm is "PointsComm"
+	-- get your comm property which will be under the name of your points (in this example it's cash)
+	
+	local clientComm = Comm.ClientComm.new(ReplicatedStorage, false, "PointsComm")
+	local cash = clientComm:GetProperty("cash")
+	
+	cash:Observe(function(newPoints)
+		-- do whatever 
+	end)
+
+]]
+
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 
 local Comm = require(ReplicatedStorage.Comm)
