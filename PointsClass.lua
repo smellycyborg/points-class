@@ -20,15 +20,20 @@ function points.new(player: Player, name: StringValue, amount: number, multiplie
 	local amount = amount or 0
 	local multiplier = multiplier or 1
 	
+	local valuesFolder = player:FindFirstChild("Values")
+	if not valuesFolder then
+		valuesFolder = Instance.new("Folder", player)
+		valuesFolder.Name = "Values"
+	end
+	
 	instance.pointsChanged = Signal.new()
 	
 	private.multiplier = multiplier
 	private.name = name
 	
-	private.pointsValue = Instance.new("IntValue")
+	private.pointsValue = Instance.new("IntValue", valuesFolder)
 	private.pointsValue.Name = name
 	private.pointsValue.Value = amount
-	private.pointsValue.Parent = player
 	
 	private.pointsProperty = serverComm:CreateProperty(name, amount)
 	
